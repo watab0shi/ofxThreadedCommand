@@ -1,5 +1,12 @@
 #include "ofApp.h"
 
+// setup
+//------------------------------------------------------------
+void ofApp::setup()
+{
+  ofSetFrameRate( 30 );
+}
+
 // draw
 //------------------------------------------------------------
 void ofApp::draw()
@@ -22,7 +29,12 @@ void ofApp::mousePressed( int _x, int _y , int _button )
   {
     ofDirectory dir( "" );
     
+#ifdef TARGET_OSX
     string cmd = "rm " + dir.getAbsolutePath() + "/*.png";
+#endif
+#ifdef TARGET_WIN32
+    string cmd = "del \"" + dir.getAbsolutePath() + "\\*.png\"";
+#endif
     cout << cmd << endl;
     command.call( cmd );
   }
