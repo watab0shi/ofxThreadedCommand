@@ -14,7 +14,6 @@ void ofApp::draw()
   ofBackground( ofColor::fromHsb( ofGetFrameNum() % 256, 200, 255 ) );
 }
 
-
 // mousePressed
 //------------------------------------------------------------
 void ofApp::mousePressed( int _x, int _y , int _button )
