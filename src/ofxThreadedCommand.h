@@ -49,7 +49,7 @@ private:
   void threadedFunction()
   {
     ofLog( OF_LOG_VERBOSE, "call " + cmd );
-    string result = exec( cmd.c_str() );
+    string result = exec( ( char* )cmd.c_str() );
     ofLog( OF_LOG_VERBOSE, "RESULT " + result );
     stopThread();
     ofNotifyEvent( commandComplete, result, this );
