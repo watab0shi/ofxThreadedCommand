@@ -12,6 +12,8 @@ class ofxThreadedCommand : private ofThread
 public:
   ofEvent< string > commandComplete;
 
+  bool isRunning(){ return isThreadRunning(); }
+  
   void call( string _command )
   {
     cmd = _command;
