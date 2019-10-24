@@ -11,8 +11,21 @@ class ofxThreadedCommand : private ofThread
 {
 public:
   ofEvent< string > commandComplete;
+  
+  bool lock()
+  {
+    return ofThread::lock();
+  }
+  
+  void unlock()
+  {
+    ofThread::unlock();
+  }
 
-  bool isRunning(){ return isThreadRunning(); }
+  bool isRunning()
+  {
+    return isThreadRunning();
+  }
   
   void call( string _command )
   {
@@ -50,9 +63,9 @@ public:
 private:
   void threadedFunction()
   {
-    ofLog( OF_LOG_VERBOSE, "call " + cmd );
+    ofLog( OF_LOG_VERBOSE, "[ofxThreadedCommand] call : " + cmd );
     string result = exec( ( char* )cmd.c_str() );
-    ofLog( OF_LOG_VERBOSE, "RESULT " + result );
+    ofLog( OF_LOG_VERBOSE, "[ofxThreadedCommand] result : " + result );
     stopThread();
     ofNotifyEvent( commandComplete, result, this );
   }

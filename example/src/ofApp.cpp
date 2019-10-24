@@ -4,6 +4,7 @@
 //------------------------------------------------------------
 void ofApp::setup()
 {
+  ofSetLogLevel( OF_LOG_VERBOSE );
   ofSetFrameRate( 30 );
 }
 
@@ -12,6 +13,9 @@ void ofApp::setup()
 void ofApp::draw()
 {
   ofBackground( ofColor::fromHsb( ofGetFrameNum() % 256, 200, 255 ) );
+  
+  ofDrawBitmapStringHighlight( "FPS   : " + ofToString( ofGetFrameRate(), 2 ), 20, 30 );
+  ofDrawBitmapStringHighlight( "frame : " + ofToString( ofGetFrameNum() ), 20, 50 );
 }
 
 // mousePressed
@@ -34,7 +38,6 @@ void ofApp::mousePressed( int _x, int _y , int _button )
 #ifdef TARGET_WIN32
     string cmd = "del \"" + dir.getAbsolutePath() + "\\*.png\"";
 #endif
-    cout << cmd << endl;
     command.call( cmd );
   }
 }
