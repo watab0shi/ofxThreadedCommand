@@ -44,7 +44,11 @@ public:
 #ifdef TARGET_WIN32
     FILE* pipe = _popen( _cmd, "r" );
 #endif
-    if( !pipe ) return "ERROR";
+    if( !pipe )
+    {
+      ofLogError() << "[ofxThreadedCommand::exec] command not executable";
+      return;
+    }
     char buffer[ 128 ];
     result = "";
     while( !feof( pipe ) )
