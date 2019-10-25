@@ -10,7 +10,7 @@
 class ofxThreadedCommand : private ofThread
 {
 public:
-  ofEvent< string > commandComplete;
+  ofEvent< std::string > commandComplete;
   
   bool lock()
   {
@@ -27,7 +27,7 @@ public:
     return isThreadRunning();
   }
   
-  void call( string _command )
+  void call( std::string _command )
   {
     cmd = _command;
     stopThread();
@@ -36,7 +36,7 @@ public:
 
   // CALL THIS DIRECTLY FOR BLOCKING COMMAND
   // thanks to: http://stackoverflow.com/questions/478898/how-to-execute-a-command-and-get-output-of-command-within-c
-  std::string exec( char* _cmd )
+  void exec( char* _cmd )
   {
 #ifdef TARGET_OSX
     FILE* pipe = popen( _cmd, "r" );
@@ -46,7 +46,7 @@ public:
 #endif
     if( !pipe ) return "ERROR";
     char buffer[ 128 ];
-    std::string result = "";
+    result = "";
     while( !feof( pipe ) )
     {
       if( fgets( buffer, 128, pipe ) != NULL ) result += buffer;
@@ -57,18 +57,29 @@ public:
 #ifdef TARGET_WIN32
     _pclose( pipe );
 #endif
-    return result;
+  }
+  
+  std::string getResult()
+  {
+    std::string r = "";
+    if( lock() )
+    {
+      r = result;
+      unlock();
+    }
+    return r;
   }
 
 private:
   void threadedFunction()
   {
     ofLog( OF_LOG_VERBOSE, "[ofxThreadedCommand] call : " + cmd );
-    string result = exec( ( char* )cmd.c_str() );
+    exec( ( char* )cmd.c_str() );
     ofLog( OF_LOG_VERBOSE, "[ofxThreadedCommand] result : " + result );
     stopThread();
     ofNotifyEvent( commandComplete, result, this );
   }
-
-  string cmd;
+  
+  std::string result;
+  std::string cmd;
 };
