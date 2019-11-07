@@ -6,6 +6,9 @@
 
 #pragma once
 #include "ofThread.h"
+#include "ofEvents.h"
+#include "ofLog.h"
+
 
 class ofxThreadedCommand : private ofThread
 {
